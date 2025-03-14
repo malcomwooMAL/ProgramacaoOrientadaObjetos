@@ -8,8 +8,8 @@ public class Main {
     public static void main(String[] args) {
         File file = new File("src\\edu\\oopnelioalves\\tratamentoexcecoes\\tryfinally\\in.txt"); 
         //inicialmente, declarar apenas que o Scanner existe
-Scanner sc = null;
-
+        Scanner sc = null;
+        
         try{
             sc = new Scanner(file); 
             while (sc.hasNextLine()){
