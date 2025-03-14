@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import edu.oopnelioalves.tratamentoexcecoes.excecoespersonalizadas.model.exception.DomainException;
+
 public class Reservation {
     private Integer roomNumber;
     private Date checkin;
@@ -11,10 +13,15 @@ public class Reservation {
     
     private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-    public Reservation(Integer roomNumber, Date checkin, Date checkout) {
+    public Reservation(Integer roomNumber, Date checkin, Date checkout) throws DomainException {
+        if (!checkout.after(checkin)) {
+            throw new DomainException("Data de checkout tem ser depois da data de checkin");
+        }
+        
         this.roomNumber = roomNumber;
         this.checkin = checkin;
         this.checkout = checkout;
+
     }
 
     public Integer getRoomNumber() {
@@ -39,20 +46,21 @@ public class Reservation {
         return diff;
     }
 
-    public String updateDates (Date checkin, Date checkout){
+    //é possível retornar e também FAZER algo dentro de um método
+    public void updateDates (Date checkin, Date checkout) throws DomainException{
             
         Date now = new Date();
             //se a data de checkin ou checkout são anteriores às datas anteriores
         if (checkin.before(now) || checkout.before(now)) {
-            return "Datas de reserva devem ser posteriores a data de hoje.";
+            //utilização de classe de exceção já pronta no java
+            throw new DomainException("Datas de reserva devem ser posteriores a data de hoje.") ;
         }
         if (!checkout.after(checkin)) {
-            return "Data de checkout tem ser depois da data de checkin";
+            throw new DomainException("Data de checkout tem ser depois da data de checkin");
         }        
         
         this.checkin = checkin;
-        this.checkout = checkout;
-        return null;
+        this.checkout = checkout;        
     }
 
     @Override
