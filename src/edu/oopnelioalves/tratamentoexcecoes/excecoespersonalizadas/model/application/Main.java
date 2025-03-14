@@ -31,11 +31,9 @@ public class Main {
             System.out.println("Informe a data de checkout: ");
             checkout = sdf.parse(sc.next());
 
-            Date now = new Date();
-            //se a data de checkin ou checkout são anteriores às datas anteriores
-            if (checkin.before(now) || checkout.before(now)) System.out.println("Datas inválidas.");
-            else if (!checkout.after(checkin)) System.out.println("Data de checkout tem ser depois da data de checkin");
-            
+            String error = reservation.updateDates(checkin, checkout);
+            if (error != null)  System.out.println("Erro na reserva: " + error);
+            else System.out.println("Reservation" + reservation);
         }    
         
 
